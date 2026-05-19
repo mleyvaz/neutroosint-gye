@@ -16,10 +16,19 @@ Ejecutar: streamlit run src/dashboard.py --server.port 8503
 """
 
 from __future__ import annotations
+import sys
+import os
+from pathlib import Path
+
+# Garantiza que el directorio raíz del proyecto esté en sys.path,
+# tanto al ejecutar localmente como en Streamlit Cloud.
+_ROOT = Path(__file__).resolve().parent.parent
+if str(_ROOT) not in sys.path:
+    sys.path.insert(0, str(_ROOT))
+
 import streamlit as st
 import pandas as pd
 import json
-from pathlib import Path
 
 from src.neutrosophic_core import TIFTriplet
 from src.osint_collector import OSINTOrchestrator
