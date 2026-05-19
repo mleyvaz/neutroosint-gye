@@ -1,0 +1,40 @@
+name: NEUTROOSINT-GYE Daily OSINT Update
+
+on:
+  schedule:
+    - cron: "0 6 * * *"   # 01:00 ECT (UTC-5) diariamente
+  workflow_dispatch:        # ejecución manual
+
+jobs:
+  update-osint-data:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Collect OSINT data
+        env:
+          GNEWS_API_KEY: ${{ secrets.GNEWS_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: python scripts/daily_collect.py
+
+      - name: Commit updated data
+        run: |
+          git config user.name  "NEUTROOSINT-Bot"
+          git config user.email "bot@neutroosint-gye"
+          git add data/processed/
+          git diff --quiet && git diff --staged --quiet || \
+            git commit -m "chore: daily OSINT update $(date -u +%Y-%m-%d)"
+          git push
