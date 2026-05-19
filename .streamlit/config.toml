@@ -1,8 +1,3 @@
-[server]
-port = 8503
-headless = false
-enableCORS = false
-
 [theme]
 primaryColor = "#1f77b4"
 backgroundColor = "#ffffff"
