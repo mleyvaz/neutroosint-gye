@@ -56,6 +56,7 @@ PAGINAS = [
     "📈 Series Temporales OSINT",
     "🔍 Comparador de Capas",
     "📄 Exportar Informe",
+    "🤝 Repositorio & Contribuir",
 ]
 
 
@@ -305,6 +306,146 @@ def pagina_exportar(sectores):
 
 
 # ------------------------------------------------------------------ #
+#  Página 8 — Repositorio & Contribuir                                 #
+# ------------------------------------------------------------------ #
+
+def pagina_repositorio():
+    st.title("🤝 Repositorio & Cómo Contribuir")
+    st.markdown(
+        "NEUTROOSINT-GYE es un proyecto de **código abierto** (MIT License). "
+        "Cualquier investigador, estudiante o desarrollador puede usarlo, adaptarlo "
+        "y contribuir."
+    )
+
+    st.divider()
+
+    # -- Bloque principal: repo y app --
+    col_repo, col_app = st.columns(2)
+    with col_repo:
+        st.subheader("Repositorio GitHub")
+        st.markdown(
+            "[![GitHub](https://img.shields.io/badge/GitHub-neutroosint--gye-181717?logo=github)](https://github.com/mleyvaz/neutroosint-gye)"
+        )
+        st.code("https://github.com/mleyvaz/neutroosint-gye", language=None)
+        st.markdown(
+            "El repositorio contiene todo el código fuente, datos de muestra, "
+            "configuración Docker y el generador de la tesis en formato UG Sistemas."
+        )
+    with col_app:
+        st.subheader("App en línea")
+        st.markdown(
+            "[![Streamlit](https://img.shields.io/badge/Live-neutroosint.streamlit.app-FF4B4B?logo=streamlit)](https://neutroosint.streamlit.app)"
+        )
+        st.code("https://neutroosint.streamlit.app", language=None)
+        st.markdown(
+            "Puedes usar la plataforma directamente en el navegador sin instalar nada."
+        )
+
+    st.divider()
+
+    # -- Instalación local --
+    st.subheader("Instalación local (3 pasos)")
+    st.code(
+        "git clone https://github.com/mleyvaz/neutroosint-gye.git\n"
+        "cd neutroosint-gye\n"
+        "pip install -r requirements.txt\n"
+        "streamlit run src/dashboard.py",
+        language="bash",
+    )
+    st.caption(
+        "Funciona sin API keys — usa datos de demostración. "
+        "Para datos reales, copia `.env.example` como `.env` y agrega tus claves."
+    )
+
+    st.divider()
+
+    # -- Cómo contribuir --
+    st.subheader("Cómo aportar al proyecto")
+
+    with st.expander("1. Reportar un error o sugerir mejoras (Issues)", expanded=True):
+        st.markdown("""
+1. Ve a [github.com/mleyvaz/neutroosint-gye/issues](https://github.com/mleyvaz/neutroosint-gye/issues)
+2. Click en **"New issue"**
+3. Describe el error o la mejora propuesta
+4. Agrega capturas de pantalla si aplica
+
+No necesitas saber programar para reportar un issue.
+""")
+
+    with st.expander("2. Proponer código (Pull Request)"):
+        st.code(
+            "# 1. Haz un fork del repositorio en GitHub\n"
+            "# 2. Clona TU fork\n"
+            "git clone https://github.com/TU_USUARIO/neutroosint-gye.git\n\n"
+            "# 3. Crea una rama para tu cambio\n"
+            "git checkout -b feature/mi-mejora\n\n"
+            "# 4. Haz tus cambios y súbelos\n"
+            "git add .\n"
+            'git commit -m "feat: descripción de mi mejora"\n'
+            "git push origin feature/mi-mejora\n\n"
+            "# 5. Abre un Pull Request desde GitHub",
+            language="bash",
+        )
+
+    with st.expander("3. Agregar datos de un nuevo sector o fuente"):
+        st.markdown("""
+Los datos de muestra están en `data/sample/guayaquil_sectors.csv`.
+Para agregar un nuevo sector:
+
+1. Agrega una fila al CSV con los indicadores del sector
+2. Si tienes datos oficiales (INEC, GADMGYE), colócalos en `data/processed/`
+3. Abre un Pull Request con los datos y la fuente citada
+
+**Importante:** Solo datos agregados a nivel de sector.
+Nunca datos individuales (LOPDP 2021).
+""")
+
+    with st.expander("4. Traducir o adaptar a otra ciudad"):
+        st.markdown("""
+La plataforma puede adaptarse a cualquier ciudad con datos OSINT disponibles.
+Para replicarla en Quito, Cuenca, Medellín, etc.:
+
+1. Reemplaza `data/sample/guayaquil_sectors.csv` con los sectores de tu ciudad
+2. Ajusta los `TERMINOS_VIOLENCIA` y `SECTORES` en `src/osint_collector.py`
+3. Recalibra `theta_dominio` en `src/npl_annotated.py` si el dominio cambia
+4. Documenta la replicación en un issue para que aparezca en el README
+""")
+
+    st.divider()
+
+    # -- Contacto y citación --
+    col_cita, col_contacto = st.columns(2)
+    with col_cita:
+        st.subheader("Citar este trabajo")
+        st.code(
+            "@software{neutroosint_gye_2026,\n"
+            "  author  = {Leyva-Vázquez, Maikel Yelandi},\n"
+            "  title   = {NEUTROOSINT-GYE},\n"
+            "  year    = {2026},\n"
+            "  url     = {https://github.com/mleyvaz/neutroosint-gye},\n"
+            "  license = {MIT}\n"
+            "}",
+            language="bibtex",
+        )
+    with col_contacto:
+        st.subheader("Contacto")
+        st.markdown("""
+**Dr. Maikel Yelandi Leyva-Vázquez**
+Universidad Bolivariana del Ecuador (UBE)
+Universidad de Guayaquil
+myleyvav@ube.edu.ec
+ORCID: [0000-0001-7911-5879](https://orcid.org/0000-0001-7911-5879)
+""")
+
+    st.divider()
+    st.info(
+        "Este proyecto es parte del programa de investigación *The Third Answer* (2026-2030). "
+        "Licencia MIT — puedes usarlo, modificarlo y redistribuirlo libremente "
+        "citando la fuente."
+    )
+
+
+# ------------------------------------------------------------------ #
 #  Main                                                                #
 # ------------------------------------------------------------------ #
 
@@ -328,6 +469,8 @@ def main():
         st.info("Módulo en desarrollo. Disponible en v1.1 (Q3 2026).")
     elif pagina == PAGINAS[6]:
         pagina_exportar(sectores)
+    elif pagina == PAGINAS[7]:
+        pagina_repositorio()
 
 
 if __name__ == "__main__":
